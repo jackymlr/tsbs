@@ -3,12 +3,12 @@ package iot
 import (
 	"fmt"
 	"github.com/timescale/tsbs/pkg/data/usecases/common"
-	"math/rand"
 	"time"
 )
 
 const (
-	truckNameFmt = "truck_%d"
+	truckNameFmt = "5f59ce7a77d0e84d4b1df4a%d"
+	oidFmt = "00000000000000000000000%d"
 )
 
 type model struct {
@@ -26,6 +26,14 @@ var (
 		"Andy",
 		"Seth",
 		"Trish",
+	}
+
+	typeChoices = []string{
+		"sim1",
+		"sim2",
+		"wan1",
+		"wan2",
+		"wireless",
 	}
 
 	modelChoices = []model{
@@ -90,8 +98,9 @@ func (t Truck) Tags() []common.Tag {
 
 func newTruckMeasurements(start time.Time) []common.SimulatedMeasurement {
 	return []common.SimulatedMeasurement{
-		NewReadingsMeasurement(start),
-		NewDiagnosticsMeasurement(start),
+		// NewReadingsMeasurement(start),
+		// NewDiagnosticsMeasurement(start),
+		NewDatausagesMeasurement(start),
 	}
 }
 
@@ -104,18 +113,21 @@ func NewTruck(i int, start time.Time) common.Generator {
 func newTruckWithMeasurementGenerator(i int, start time.Time, generator func(time.Time) []common.SimulatedMeasurement) Truck {
 	sm := generator(start)
 
-	m := modelChoices[rand.Intn(len(modelChoices))]
+	//m := modelChoices[rand.Intn(len(modelChoices))]
 
 	h := Truck{
 		tags: []common.Tag{
-			{Key: []byte("name"), Value: fmt.Sprintf(truckNameFmt, i)},
-			{Key: []byte("fleet"), Value: common.RandomStringSliceChoice(FleetChoices)},
-			{Key: []byte("driver"), Value: common.RandomStringSliceChoice(driverChoices)},
-			{Key: []byte("model"), Value: m.Name},
-			{Key: []byte("device_version"), Value: common.RandomStringSliceChoice(deviceVersionChoices)},
-			{Key: []byte("load_capacity"), Value: m.LoadCapacity},
-			{Key: []byte("fuel_capacity"), Value: m.FuelCapacity},
-			{Key: []byte("nominal_fuel_consumption"), Value: m.FuelConsumption},
+		{Key: []byte("deviceId"), Value: fmt.Sprintf(truckNameFmt, i)},
+		{Key: []byte("oid"), Value: fmt.Sprintf(oidFmt, i)},
+		{Key: []byte("type"), Value: common.RandomStringSliceChoice(typeChoices)},
+		//	{Key: []byte("name"), Value: fmt.Sprintf(truckNameFmt, i)},
+		//	{Key: []byte("fleet"), Value: common.RandomStringSliceChoice(FleetChoices)},
+		//	{Key: []byte("driver"), Value: common.RandomStringSliceChoice(driverChoices)},
+		//	{Key: []byte("model"), Value: m.Name},
+		//	{Key: []byte("device_version"), Value: common.RandomStringSliceChoice(deviceVersionChoices)},
+		//	{Key: []byte("load_capacity"), Value: m.LoadCapacity},
+		//	{Key: []byte("fuel_capacity"), Value: m.FuelCapacity},
+		//	{Key: []byte("nominal_fuel_consumption"), Value: m.FuelConsumption},
 		},
 		simulatedMeasurements: sm,
 	}
