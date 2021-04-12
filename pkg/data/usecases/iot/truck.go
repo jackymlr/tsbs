@@ -8,7 +8,6 @@ import (
 
 const (
 	truckNameFmt = "5f59ce7a77d0e84d4b1df4a%d"
-	oidFmt = "00000000000000000000000%d"
 )
 
 type model struct {
@@ -34,6 +33,14 @@ var (
 		"wan1",
 		"wan2",
 		"wireless",
+	}
+
+	oidChoices = []string{
+		"5f1ec84fb48129250cdb12a2",
+		"5f1f93e5b48129250cdb12b5",
+		"5f1fd5f1bae5da7a7331f642",
+		"5fd88a91d9c52860963643b0",
+		"5febea078019ad2705652598",
 	}
 
 	modelChoices = []model{
@@ -118,7 +125,7 @@ func newTruckWithMeasurementGenerator(i int, start time.Time, generator func(tim
 	h := Truck{
 		tags: []common.Tag{
 		{Key: []byte("deviceId"), Value: fmt.Sprintf(truckNameFmt, i)},
-		{Key: []byte("oid"), Value: fmt.Sprintf(oidFmt, i)},
+		{Key: []byte("oid"), Value: common.RandomStringSliceChoice(oidChoices)},
 		{Key: []byte("type"), Value: common.RandomStringSliceChoice(typeChoices)},
 		//	{Key: []byte("name"), Value: fmt.Sprintf(truckNameFmt, i)},
 		//	{Key: []byte("fleet"), Value: common.RandomStringSliceChoice(FleetChoices)},
