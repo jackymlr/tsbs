@@ -36,11 +36,11 @@ var (
 	}
 
 	oidChoices = []string{
-		"5f1ec84fb48129250cdb12a2",
-		"5f1f93e5b48129250cdb12b5",
-		"5f1fd5f1bae5da7a7331f642",
-		"5fd88a91d9c52860963643b0",
-		"5febea078019ad2705652598",
+		"555ec84fb48129250cdb1111",
+		"555ec84fb48129250cdb1222",
+		"555ec84fb48129250cdb1333",
+		"555ec84fb48129250cdb1444",
+		"555ec84fb48129250cdb1555",
 	}
 
 	modelChoices = []model{
