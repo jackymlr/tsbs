@@ -14,6 +14,7 @@ const (
 	// ReadingsTableName is the name of the table where all the readings
 	// time series data is stored.
 	ReadingsTableName = "readings"
+	DatausageTableName = "datausage"
 	// DiagnosticsTableName is the name of the table where all the diagnostics
 	// time series data is stored.
 	DiagnosticsTableName = "diagnostics"
@@ -62,6 +63,11 @@ type Core struct {
 // GetRandomFleet returns one of the fleet choices by random.
 func (c Core) GetRandomFleet() string {
 	return iot.FleetChoices[rand.Intn(len(iot.FleetChoices))]
+}
+
+// GetRandomFleet returns one of the fleet choices by random.
+func (c Core) GetRandomType() string {
+	return iot.TypeChoices[rand.Intn(len(iot.TypeChoices))]
 }
 
 // NewCore returns a new Core for the given time range and cardinality

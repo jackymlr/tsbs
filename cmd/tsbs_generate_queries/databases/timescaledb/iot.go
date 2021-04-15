@@ -86,26 +86,26 @@ func (i *IoT) LastLocByTruck(qi query.Query, nTrucks int) {
 
 // LastLocPerTruck finds all the truck locations along with truck and driver names.
 func (i *IoT) LastLocPerTruck(qi query.Query) {
-	name, driver, fleet := "name", "driver", "fleet"
+	deviceid, oid, types := "deviceid", "oid", "type"
 
-	sql := fmt.Sprintf(`SELECT t.%s, t.%s, r.*
+	sql := fmt.Sprintf(`SELECT t.%s, t.%s, d.*
 		FROM tags t INNER JOIN LATERAL
-			(SELECT longitude, latitude
-			FROM readings r
-			WHERE r.tags_id=t.id
-			ORDER BY time DESC LIMIT 1)  r ON true
+			(SELECT tx, rx
+			FROM datausage d
+			WHERE d.tags_id=t.id
+			ORDER BY time DESC LIMIT 1)  d ON true
 		WHERE t.%s IS NOT NULL
 		AND t.%s = '%s'`,
-		i.withAlias(name),
-		i.withAlias(driver),
-		i.columnSelect(name),
-		i.columnSelect(fleet),
-		i.GetRandomFleet())
+		i.withAlias(deviceid),
+		i.withAlias(oid),
+		i.columnSelect(deviceid),
+		i.columnSelect(types),
+		i.GetRandomType())
 
 	humanLabel := "TimescaleDB last location per truck"
 	humanDesc := humanLabel
 
-	i.fillInQuery(qi, humanLabel, humanDesc, iot.ReadingsTableName, sql)
+	i.fillInQuery(qi, humanLabel, humanDesc, iot.DatausageTableName, sql)
 }
 
 // TrucksWithLowFuel finds all trucks with low fuel (less than 10%).

@@ -103,15 +103,15 @@ func TestLastLocPerTruck(t *testing.T) {
 
 			expectedHumanLabel: "TimescaleDB last location per truck",
 			expectedHumanDesc:  "TimescaleDB last location per truck",
-			expectedHypertable: iot.ReadingsTableName,
-			expectedSQLQuery: `SELECT t.name AS name, t.driver AS driver, r.*
+			expectedHypertable: iot.DatausageTableName,
+			expectedSQLQuery: `SELECT t.deviceid AS deviceid, t.oid AS oid, d.*
 		FROM tags t INNER JOIN LATERAL
-			(SELECT longitude, latitude
-			FROM readings r
-			WHERE r.tags_id=t.id
-			ORDER BY time DESC LIMIT 1)  r ON true
-		WHERE t.name IS NOT NULL
-		AND t.fleet = 'South'`,
+			(SELECT tx, rx
+			FROM datausage d
+			WHERE d.tags_id=t.id
+			ORDER BY time DESC LIMIT 1)  d ON true
+		WHERE t.deviceid IS NOT NULL
+		AND t.type = 'sim1'`,
 		},
 
 		{
@@ -120,15 +120,15 @@ func TestLastLocPerTruck(t *testing.T) {
 			useJSON:            true,
 			expectedHumanLabel: "TimescaleDB last location per truck",
 			expectedHumanDesc:  "TimescaleDB last location per truck",
-			expectedHypertable: iot.ReadingsTableName,
-			expectedSQLQuery: `SELECT t.tagset->>'name' AS name, t.tagset->>'driver' AS driver, r.*
+			expectedHypertable: iot.DatausageTableName,
+			expectedSQLQuery: `SELECT t.tagset->>'deviceid' AS deviceid, t.tagset->>'oid' AS oid, d.*
 		FROM tags t INNER JOIN LATERAL
-			(SELECT longitude, latitude
-			FROM readings r
-			WHERE r.tags_id=t.id
-			ORDER BY time DESC LIMIT 1)  r ON true
-		WHERE t.tagset->>'name' IS NOT NULL
-		AND t.tagset->>'fleet' = 'South'`,
+			(SELECT tx, rx
+			FROM datausage d
+			WHERE d.tags_id=t.id
+			ORDER BY time DESC LIMIT 1)  d ON true
+		WHERE t.tagset->>'deviceid' IS NOT NULL
+		AND t.tagset->>'type' = 'sim1'`,
 		},
 	}
 

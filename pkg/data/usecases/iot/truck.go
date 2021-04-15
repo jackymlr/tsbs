@@ -78,6 +78,14 @@ var (
 		"North",
 		"South",
 	}
+
+	TypeChoices = []string{
+		"wan1",
+		"wan2",
+		"sim1",
+		"sim2",
+		"wireless",
+	}
 )
 
 // Truck models a truck outfitted with an IoT device which sends back measurements.
