@@ -73,7 +73,7 @@ func (d *dbCreator) listDatabases() ([]string, error) {
 }
 
 func (d *dbCreator) RemoveOldDB(dbName string) error {
-	u := fmt.Sprintf("%s/query?u=admin%26p=1qaz2wsx%26q=drop+database+%s", d.daemonURL, dbName)
+	u := fmt.Sprintf("%s/query?u=admin&p=1qaz2wsx&q=drop+database+%s", d.daemonURL, dbName)
 	resp, err := http.Post(u, "text/plain", nil)
 	if err != nil {
 		return fmt.Errorf("drop db error: %s", err.Error())
