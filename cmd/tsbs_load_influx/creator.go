@@ -33,7 +33,7 @@ func (d *dbCreator) DBExists(dbName string) bool {
 }
 
 func (d *dbCreator) listDatabases() ([]string, error) {
-	u := fmt.Sprintf("%s/query?u=admin%26p=1qaz2wsx%26q=show%20databases", d.daemonURL)
+	u := fmt.Sprintf("%s/query?u=admin&p=1qaz2wsx&q=show%20databases", d.daemonURL)
 	resp, err := http.Get(u)
 	if err != nil {
 		return nil, fmt.Errorf("listDatabases error: %s", err.Error())
