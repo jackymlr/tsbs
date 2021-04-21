@@ -196,18 +196,18 @@ func (l *CommonBenchmarkRunner) useDBCreator(dbc targets.DBCreator) func() {
 
 		// Create required DB if need be
 		// In case DB already exists - delete it
-		if l.DoCreateDB {
-			if exists {
-				err := dbc.RemoveOldDB(l.DBName)
-				if err != nil {
-					panic(err)
-				}
-			}
-			err := dbc.CreateDB(l.DBName)
-			if err != nil {
-				panic(err)
-			}
-		}
+		//if l.DoCreateDB {
+		//	if exists {
+		//		err := dbc.RemoveOldDB(l.DBName)
+		//		if err != nil {
+		//			panic(err)
+		//		}
+		//	}
+		//	err := dbc.CreateDB(l.DBName)
+		//	if err != nil {
+		//		panic(err)
+		//	}
+		//}
 
 		switch dbcp := dbc.(type) {
 		case targets.DBCreatorPost:

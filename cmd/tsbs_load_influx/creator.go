@@ -33,7 +33,7 @@ func (d *dbCreator) DBExists(dbName string) bool {
 }
 
 func (d *dbCreator) listDatabases() ([]string, error) {
-	u := fmt.Sprintf("%s/query?u=admin&p=1qaz2wsx&q=show%20databases", d.daemonURL)
+	u := fmt.Sprintf("%s/query?u=admin&p=1qaz2wsx&q=show+databases", d.daemonURL)
 	resp, err := http.Get(u)
 	if err != nil {
 		return nil, fmt.Errorf("listDatabases error: %s", err.Error())
@@ -95,6 +95,8 @@ func (d *dbCreator) CreateDB(dbName string) error {
 	u.Path = "query"
 	v := u.Query()
 	v.Set("consistency", "all")
+	v.Set("u", "admin")
+	v.Set("p", "1qaz2wsx")
 	v.Set("q", fmt.Sprintf("CREATE DATABASE %s WITH REPLICATION %d", dbName, replicationFactor))
 	u.RawQuery = v.Encode()
 
